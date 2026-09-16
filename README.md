@@ -53,28 +53,95 @@ Display all edge-detected images for comparison.
 - **Register No:** 212224240052
 
 ---
+## Program
+```
+import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+image = cv2.imread('Chennai_Central.jpg')  
+plt.imshow(image[:,:,::-1])
+plt.title('Original Image')
+plt.axis('off')
+sobelx  = cv2.Sobel(src = gray_image, ddepth = cv2.CV_64F, dx = 1, dy = 0, ksize = 3) 
+sobely  = cv2.Sobel(src = gray_image, ddepth = cv2.CV_64F, dx = 0, dy = 1, ksize = 3)
 
+sobelx = cv2.Sobel(gray_image, cv2.CV_64F, 1, 0, ksize=3)  
+sobely = cv2.Sobel(gray_image, cv2.CV_64F, 0, 1, ksize=3)  
+sobel_combined = cv2.magnitude(sobelx, sobely) 
+plt.figure(figsize = (12,16))
+
+plt.subplot(321)
+plt.axis('off')
+plt.imshow(image[:,:,::-1])
+plt.title('Original')
+
+plt.subplot(322)
+plt.axis('off')
+plt.imshow(gray_image, cmap='gray')
+plt.title('Grayscale')
+
+plt.subplot(323)
+plt.axis('off')
+plt.imshow(sobelx)
+plt.title('Sobel-X Edge Map')
+
+plt.subplot(324)
+plt.axis('off')
+plt.imshow(sobely)
+plt.title('Sobel-Y Edge Map')
+Text(0.5, 1.0, 'Sobel-Y Edge Map')
+plt.figure(figsize = (7,7))
+
+plt.axis('off')
+plt.imshow(sobel_combined, cmap='gray')
+plt.title('sobel_combined')
+
+plt.show()
+laplacian = cv2.Laplacian(gray_image, cv2.CV_64F)
+plt.figure(figsize = (12,16))
+
+plt.subplot(121)
+plt.axis('off')
+plt.imshow(gray_image, cmap='gray')
+plt.title('Inputimage (Gray Image)')
+
+plt.subplot(122)
+plt.imshow(laplacian, cmap='gray')
+plt.axis('off')
+plt.title('Output Image (laplacian)')
+
+plt.show()
+```
 ## Output
 
 ###  Sobel Edge Detector
 - Detects edges in horizontal and vertical directions  
-- Produces gradient-based edge map  
+- Produces gradient-based edge map
+- <img width="562" height="415" alt="download" src="https://github.com/user-attachments/assets/62a59996-39da-4ad9-b826-df4b5b26dd8a" />
+
 
 ###  Prewitt Edge Detector
 - Similar to Sobel but simpler kernel  
-- Detects directional edges  
+- Detects directional edges
+- <img width="562" height="415" alt="download" src="https://github.com/user-attachments/assets/dbb14ebe-cd8c-4e4c-9e59-8f899d3431dc" />
+
 
 ###  Roberts Edge Detector
 - Detects edges using diagonal gradients  
-- Sensitive to noise  
+- Sensitive to noise
+- <img width="562" height="415" alt="download" src="https://github.com/user-attachments/assets/e8232158-4835-4b6a-9880-97bcc509c528" />
+
 
 ###  Laplacian Edge Detector
 - Detects edges using second-order derivatives  
 - Highlights rapid intensity changes  
+<img width="950" height="333" alt="download" src="https://github.com/user-attachments/assets/6e8743ea-ed0a-45bd-94af-90eeca6d0f87" />
 
 ###  Canny Edge Detector
 - Multi-stage edge detection  
-- Produces clean and thin edges  
+- Produces clean and thin edges
+- <img width="794" height="284" alt="download" src="https://github.com/user-attachments/assets/76a04287-6454-4957-b7cd-9839ea402a7e" />
+
 
 ---
 
