@@ -1,4 +1,7 @@
-# edge-detection-opencv
+# DIPT-Exp-6--Record-EDGE-DETECTION
+
+# Name: Harish S
+# Register No: 212224240052
 
 ## Aim
 
@@ -46,72 +49,83 @@ Apply **Canny edge detector** using OpenCV.
 Display all edge-detected images for comparison.
 
 ---
-
-## Developed By
-
-- **Name:** Harish S
-- **Register No:** 212224240052
-
----
+  
 ## Program
-```
+
+```python
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
-image = cv2.imread('Chennai_Central.jpg')  
-plt.imshow(image[:,:,::-1])
+
+image = cv2.imread('lion.png')  # Replace with your image path
+gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+# Original Image
+plt.imshow(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
 plt.title('Original Image')
 plt.axis('off')
-sobelx  = cv2.Sobel(src = gray_image, ddepth = cv2.CV_64F, dx = 1, dy = 0, ksize = 3) 
-sobely  = cv2.Sobel(src = gray_image, ddepth = cv2.CV_64F, dx = 0, dy = 1, ksize = 3)
-
-sobelx = cv2.Sobel(gray_image, cv2.CV_64F, 1, 0, ksize=3)  
-sobely = cv2.Sobel(gray_image, cv2.CV_64F, 0, 1, ksize=3)  
-sobel_combined = cv2.magnitude(sobelx, sobely) 
-plt.figure(figsize = (12,16))
-
-plt.subplot(321)
-plt.axis('off')
-plt.imshow(image[:,:,::-1])
-plt.title('Original')
-
-plt.subplot(322)
-plt.axis('off')
-plt.imshow(gray_image, cmap='gray')
-plt.title('Grayscale')
-
-plt.subplot(323)
-plt.axis('off')
-plt.imshow(sobelx)
-plt.title('Sobel-X Edge Map')
-
-plt.subplot(324)
-plt.axis('off')
-plt.imshow(sobely)
-plt.title('Sobel-Y Edge Map')
-Text(0.5, 1.0, 'Sobel-Y Edge Map')
-plt.figure(figsize = (7,7))
-
-plt.axis('off')
-plt.imshow(sobel_combined, cmap='gray')
-plt.title('sobel_combined')
-
-plt.show()
-laplacian = cv2.Laplacian(gray_image, cv2.CV_64F)
-plt.figure(figsize = (12,16))
-
-plt.subplot(121)
-plt.axis('off')
-plt.imshow(gray_image, cmap='gray')
-plt.title('Inputimage (Gray Image)')
-
-plt.subplot(122)
-plt.imshow(laplacian, cmap='gray')
-plt.axis('off')
-plt.title('Output Image (laplacian)')
-
-plt.show()
 ```
+```python
+sobel_x = cv2.Sobel(gray_image, cv2.CV_64F, 1, 0, ksize=5)  # Sobel in x direction
+sobel_y = cv2.Sobel(gray_image, cv2.CV_64F, 0, 1, ksize=5)  # Sobel in y direction
+sobel_combined = cv2.magnitude(sobel_x, sobel_y)  # Combine both directions
+plt.imshow(sobel_combined, cmap='gray')
+plt.title('Sobel Edge Detection')
+plt.axis('off')
+```
+```python
+laplacian = cv2.Laplacian(gray_image, cv2.CV_64F)
+plt.imshow(laplacian, cmap='gray')
+plt.title('Laplacian Edge Detection')
+plt.axis('off')
+```
+```python
+
+canny_edges = cv2.Canny(gray_image, 50, 150)
+plt.imshow(canny_edges, cmap='gray')
+plt.title('Canny Edge Detection')
+plt.axis('off')
+```
+```python
+image = cv2.imread("lion.png")
+
+gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+prewitt_x = np.array([[1, 0, -1],
+                      [1, 0, -1],
+                      [1, 0, -1]])
+
+prewitt_y = np.array([[1, 1, 1],
+                      [0, 0, 0],
+                      [-1, -1, -1]])
+
+prewitt_x_edge = cv2.filter2D(gray, -1, prewitt_x)
+prewitt_y_edge = cv2.filter2D(gray, -1, prewitt_y)
+prewitt = cv2.magnitude(prewitt_x_edge.astype(np.float32),
+                        prewitt_y_edge.astype(np.float32))
+
+plt.imshow(canny_edges, cmap='gray')
+plt.title('Prewitt Edge Detection')
+plt.axis('off')
+```
+```python
+roberts_x = np.array([[1, 0],
+                      [0, -1]])
+
+roberts_y = np.array([[0, 1],
+                      [-1, 0]])
+
+roberts_x_edge = cv2.filter2D(gray, -1, roberts_x)
+roberts_y_edge = cv2.filter2D(gray, -1, roberts_y)
+roberts = cv2.magnitude(roberts_x_edge.astype(np.float32),
+                        roberts_y_edge.astype(np.float32))
+plt.imshow(canny_edges, cmap='gray')
+plt.title('Roberts Edge Detection')
+plt.axis('off')  
+
+```
+
+
+---
+
 ## Output
 
 ###  Sobel Edge Detector
